@@ -1,0 +1,100 @@
+<!--
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div class="ddp-type-contents ddp-resize2 ddp-type2  ">
+  <!-- 닫기 버튼 -->
+  <a href="javascript:" class="ddp-btn-close" (click)="close()"></a>
+  <!-- 닫기 버튼 -->
+  <div class="ddp-icon-name">
+    <div class="ddp-ui-name2 ddp-type3">
+      api test
+      <span class="ddp-txt-info ddp-type">api</span>
+      <em class="ddp-bg-order-line2-type"></em>
+    </div>
+  </div>
+  <div class="ddp-type-contents-in ddp-size-resize ">
+    <div class="ddp-wrap-urltype ">
+      <a href="javascript:" class="ddp-btn-pop ddp-bg-gray " (click)="call('google')">google</a>
+      <!-- edit -->
+      <div class="ddp-wrap-edit4">
+        <div class="ddp-label-type">client id</div>
+        <div class="ddp-form-edit type-file">
+          <div class="ddp-form-file">
+            <input type="text" class="ddp-input-typebasic" placeholder="client id" [(ngModel)]="client_id">
+          </div>
+        </div>
+      </div>
+      <!-- //edit -->
+
+      <!-- edit -->
+      <div class="ddp-wrap-edit4">
+        <div class="ddp-label-type">client secret</div>
+        <div class="ddp-form-edit type-file">
+          <div class="ddp-form-file">
+            <input type="text" class="ddp-input-typebasic" placeholder="client secret" [(ngModel)]="client_secret">
+          </div>
+        </div>
+      </div>
+
+      <!-- edit -->
+      <div class="ddp-wrap-edit4">
+        <div class="ddp-label-type">auth code for manager account</div>
+        <div class="ddp-form-edit type-file">
+          <div class="ddp-form-file">
+            <input type="text" class="ddp-input-typebasic" placeholder="auth_code" [(ngModel)]="auth_code">
+          </div>
+        </div>
+      </div>
+
+      <a href="javascript:" class="ddp-btn-pop ddp-bg-gray " (click)="call('facebook')">facebook</a>
+      <!-- edit -->
+      <div class="ddp-wrap-edit4">
+        <div class="ddp-label-type">access-token</div>
+        <div class="ddp-form-edit type-file">
+          <div class="ddp-form-file">
+            <input type="text" class="ddp-input-typebasic" placeholder="access-token" [(ngModel)]="access_token">
+          </div>
+        </div>
+      </div>
+      <!-- //edit -->
+
+      <!-- edit -->
+      <div class="ddp-wrap-edit4">
+        <div class="ddp-label-type">app secret</div>
+        <div class="ddp-form-edit type-file">
+          <div class="ddp-form-file">
+            <input type="text" class="ddp-input-typebasic" placeholder="app secret" [(ngModel)]="appsecret">
+          </div>
+        </div>
+      </div>
+
+      <!-- edit -->
+      <div class="ddp-wrap-edit4">
+        <div class="ddp-label-type">ad account id</div>
+        <div class="ddp-form-edit type-file">
+          <div class="ddp-form-file">
+            <input type="text" class="ddp-input-typebasic" placeholder="ad account id" [(ngModel)]="adaccount_id">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- buttons -->
+  <div class="ddp-ui-buttons">
+    <a href="javascript:" class="ddp-btn-type-popup" (click)="prev()">{{'msg.comm.btn.cancl' | translate}}</a>
+    <a href="javascript:" class="ddp-btn-type-popup  ddp-bg-black" (click)="next()">{{'msg.comm.btn.next' | translate}}</a>
+  </div>
+  <!-- //buttons -->
+</div>
+

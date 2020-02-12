@@ -27,6 +27,7 @@ import { CreateDatasetDataTypeComponent } from './dataset/create-dataset/create-
 import { CreateDatasetSelectfileComponent } from './dataset/create-dataset/create-dataset-selectfile.component';
 import { CreateDatasetSelectsheetComponent } from './dataset/create-dataset/create-dataset-selectsheet.component';
 import { CreateDatasetSelecturlComponent } from './dataset/create-dataset/create-dataset-selecturl.component';
+import { CreateDatasetApiComponent } from './dataset/create-dataset/create-dataset-api.component';
 import { CreateDatasetStagingSelectdataComponent } from './dataset/create-dataset/create-dataset-staging-selectdata.component';
 import { DatasetService } from './dataset/service/dataset.service';
 import { FileModule } from '../common/file.module';
@@ -120,6 +121,7 @@ const dataPreparationRoutes: Routes = [
     CreateDatasetSelectfileComponent,
     CreateDatasetSelectsheetComponent,
     CreateDatasetSelecturlComponent,
+    CreateDatasetApiComponent,
     CreateDatasetStagingSelectdataComponent,
     DataSnapshotComponent,
     CreateDatasetDbSelectComponent,

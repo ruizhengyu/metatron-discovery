@@ -213,4 +213,12 @@ export class DatasetService extends AbstractService {
   public makeLineage(params: any) {
     return this.post(this.API_URL + `metadatas/lineages/map`, params);
   }
+
+  public postGoogleAds(params: any) {
+    return this.post(this.API_URL + `preparationdatasets/google_ads`, params);
+  }
+
+  public postFacebook(params: any) {
+    return this.post(this.API_URL + `preparationdatasets/facebook`, params);
+  }
 }

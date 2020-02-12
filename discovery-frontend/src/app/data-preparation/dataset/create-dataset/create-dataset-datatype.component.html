@@ -53,6 +53,13 @@
             {{'msg.storage.ui.conn.url' | translate}}
           </a>
 
+          <a href="javascript:" class="ddp-btn-select"
+             (click)="setConnectionType('api')"
+             [ngClass]="{'ddp-selected':connectionType=='api'}">
+            <em class="ddp-icon-boxbtn-url"></em>
+            api
+          </a>
+
         </div>
         <!-- //데이터 선택 -->
 

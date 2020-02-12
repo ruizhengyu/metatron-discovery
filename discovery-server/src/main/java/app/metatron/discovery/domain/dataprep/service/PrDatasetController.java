@@ -14,8 +14,17 @@
 
 package app.metatron.discovery.domain.dataprep.service;
 
+import com.google.auth.oauth2.ClientId;
+import com.google.auth.oauth2.UserAuthorizer;
+import com.google.auth.oauth2.UserCredentials;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import com.facebook.ads.sdk.APIContext;
+import com.facebook.ads.sdk.APINodeList;
+import com.facebook.ads.sdk.AdAccount;
+import com.facebook.ads.sdk.Campaign;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.http.HttpStatus;
@@ -39,7 +48,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -469,5 +481,64 @@ public class PrDatasetController {
       throw datasetError(MSG_DP_ALERT_NOT_IMPORTED_DATASET, dsId);
     }
     return dataset;
+  }
+
+  @RequestMapping(value = "/google_ads", method = RequestMethod.POST)
+  public @ResponseBody ResponseEntity<?> postGoogleAds(
+      @RequestBody Map<String,String> request
+  ) {
+    ImmutableList<String> SCOPES =
+        ImmutableList.<String>builder().add("https://www.googleapis.com/auth/adwords").build();
+    String CALLBACK_URI = "urn:ietf:wg:oauth:2.0:oob";
+
+    Map<String, String> response = Maps.newHashMap();
+    String clientId = request.get("client_id");
+    String clientSecret = request.get("client_secret");
+    String authorizationCode = request.get("auth_code");
+
+    try {
+      UserAuthorizer userAuthorizer =
+          UserAuthorizer.newBuilder()
+                        .setClientId(ClientId.of(clientId, clientSecret))
+                        .setScopes(SCOPES)
+                        .setCallbackUri(URI.create(CALLBACK_URI))
+                        .build();
+      URL authorizationUrl = userAuthorizer.getAuthorizationUrl(null, null, null);
+
+
+      UserCredentials userCredentials = userAuthorizer.getCredentialsFromCode(authorizationCode, null);
+      String refreshToken = userCredentials.getRefreshToken();
+
+      response.put("refresh_token",refreshToken);
+    } catch (IOException e) {
+      LOGGER.error("postGoogleAds(): caught an exception: ", e);
+      throw datasetError(e);
+    }
+
+    return ResponseEntity.status(HttpStatus.SC_OK).body(response);
+  }
+
+  @RequestMapping(value = "/facebook", method = RequestMethod.POST)
+  public @ResponseBody ResponseEntity<?> postFacebook(
+      @RequestBody Map<String,String> request
+  ) {
+    String accessToken = request.get("access_token");
+    String appSecret = request.get("appsecret");
+    String adAccountId = request.get("adaccount_id");
+    Map<String, String> response = Maps.newHashMap();
+    APIContext context = new APIContext(
+        accessToken,
+        appSecret
+    );
+    AdAccount account = new AdAccount("act_"+adAccountId, context);
+    try {
+      APINodeList<Campaign> campaigns = account.getCampaigns().requestAllFields().execute();
+      for(Campaign campaign : campaigns) {
+        System.out.println(campaign.getFieldName());
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return ResponseEntity.status(HttpStatus.SC_OK).body(response);
   }
 }

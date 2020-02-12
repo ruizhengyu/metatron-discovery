@@ -99,6 +99,12 @@ export class CreateDatasetDataTypeComponent extends AbstractPopupComponent imple
           data: null
         });
         break;
+      case 'api' :
+        this.popupService.notiPopup({
+          name: 'select-api',
+          data: null
+        });
+        break;
     }
   } // function - next
 

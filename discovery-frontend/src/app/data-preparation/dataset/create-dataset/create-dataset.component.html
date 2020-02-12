@@ -27,3 +27,4 @@
                          [type]="type"
                          [isFromDatasetList]="isFromDatasetList">
 </app-create-dataset-name>
+<app-create-dataset-api *ngIf="step=='select-api'" [datasetFiles]="datasetFiles" (close)="init();" (typeEmitter)="setCreateType($event);"></app-create-dataset-api>
