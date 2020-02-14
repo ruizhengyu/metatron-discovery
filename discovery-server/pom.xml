@@ -1309,6 +1309,21 @@
             <artifactId>google-ads</artifactId>
             <version>4.4.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.api-ads</groupId>
+            <artifactId>ads-lib</artifactId>
+            <version>4.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.api-ads</groupId>
+            <artifactId>adwords-axis</artifactId>
+            <version>4.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.api-ads</groupId>
+            <artifactId>dfp-axis</artifactId>
+            <version>4.9.0</version>
+        </dependency>
 
         <dependency>
             <groupId>com.facebook.business.sdk</groupId>

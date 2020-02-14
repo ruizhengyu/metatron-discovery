@@ -14,10 +14,25 @@
 
 package app.metatron.discovery.domain.dataprep.service;
 
-import com.google.auth.oauth2.ClientId;
-import com.google.auth.oauth2.UserAuthorizer;
-import com.google.auth.oauth2.UserCredentials;
-import com.google.common.collect.ImmutableList;
+import com.google.api.ads.adwords.axis.factory.AdWordsServices;
+import com.google.api.ads.adwords.axis.v201809.cm.CampaignPage;
+import com.google.api.ads.adwords.axis.v201809.cm.CampaignServiceInterface;
+import com.google.api.ads.adwords.axis.v201809.cm.Selector;
+import com.google.api.ads.adwords.lib.client.AdWordsSession;
+import com.google.api.ads.adwords.lib.client.reporting.ReportingConfiguration;
+import com.google.api.ads.adwords.lib.factory.AdWordsServicesInterface;
+import com.google.api.ads.adwords.lib.jaxb.v201809.DownloadFormat;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.utils.ReportDownloadResponse;
+import com.google.api.ads.adwords.lib.utils.ReportDownloadResponseException;
+import com.google.api.ads.adwords.lib.utils.ReportException;
+import com.google.api.ads.adwords.lib.utils.v201809.ReportDownloaderInterface;
+import com.google.api.ads.adwords.lib.utils.v201809.ReportQuery;
+import com.google.api.ads.common.lib.auth.OfflineCredentials;
+import com.google.api.ads.common.lib.exception.OAuthException;
+import com.google.api.ads.common.lib.exception.ValidationException;
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -50,8 +65,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -487,29 +500,89 @@ public class PrDatasetController {
   public @ResponseBody ResponseEntity<?> postGoogleAds(
       @RequestBody Map<String,String> request
   ) {
-    ImmutableList<String> SCOPES =
-        ImmutableList.<String>builder().add("https://www.googleapis.com/auth/adwords").build();
-    String CALLBACK_URI = "urn:ietf:wg:oauth:2.0:oob";
-
     Map<String, String> response = Maps.newHashMap();
     String clientId = request.get("client_id");
     String clientSecret = request.get("client_secret");
-    String authorizationCode = request.get("auth_code");
+    String developerToken = request.get("developer_token");
 
     try {
-      UserAuthorizer userAuthorizer =
-          UserAuthorizer.newBuilder()
-                        .setClientId(ClientId.of(clientId, clientSecret))
-                        .setScopes(SCOPES)
-                        .setCallbackUri(URI.create(CALLBACK_URI))
-                        .build();
-      URL authorizationUrl = userAuthorizer.getAuthorizationUrl(null, null, null);
+      Credential credential = new OfflineCredentials.Builder()
+            .forApi(OfflineCredentials.Api.ADWORDS)
+            .withClientSecrets(clientId, clientSecret)
+            .build()
+            .generateCredential();
 
-
-      UserCredentials userCredentials = userAuthorizer.getCredentialsFromCode(authorizationCode, null);
-      String refreshToken = userCredentials.getRefreshToken();
-
+      String accessToken = credential.getAccessToken();
+      String refreshToken = credential.getRefreshToken();
+      response.put("access_token",accessToken);
       response.put("refresh_token",refreshToken);
+
+      AdWordsSession session = new AdWordsSession.Builder()
+          .withDeveloperToken(developerToken)
+          .withOAuth2Credential(credential)
+          .build();
+
+      CampaignServiceInterface campaignService =
+          new AdWordsServices().get(session, CampaignServiceInterface.class);
+
+      Selector selector = new Selector();
+      selector.setFields(new String[] {"Id", "Name"});
+
+      CampaignPage page = campaignService.get(selector);
+
+
+      // 리포트
+
+      ReportQuery query =
+          new ReportQuery.Builder()
+              .fields(
+                  "CampaignId",
+                  "AdGroupId",
+                  "Id",
+                  "Criteria",
+                  "CriteriaType",
+                  "Impressions",
+                  "Clicks",
+                  "Cost")
+              .from(ReportDefinitionReportType.CRITERIA_PERFORMANCE_REPORT)
+              .where("Status").in("ENABLED", "PAUSED")
+              .during(ReportDefinitionDateRangeType.LAST_7_DAYS)
+              .build();
+
+      // Optional: Set the reporting configuration of the session to suppress header, column name, or
+      // summary rows in the report output. You can also configure this via your ads.properties
+      // configuration file. See AdWordsSession.Builder.from(Configuration) for details.
+      // In addition, you can set whether you want to explicitly include or exclude zero impression
+      // rows.
+      ReportingConfiguration reportingConfiguration =
+          new ReportingConfiguration.Builder()
+              .skipReportHeader(false)
+              .skipColumnHeader(false)
+              .skipReportSummary(false)
+              // Set to false to exclude rows with zero impressions.
+              .includeZeroImpressions(true)
+              .build();
+      session.setReportingConfiguration(reportingConfiguration);
+
+      AdWordsServicesInterface adWordsServices = AdWordsServices.getInstance();
+
+      ReportDownloaderInterface reportDownloader =
+          adWordsServices.getUtility(session, ReportDownloaderInterface.class);
+
+      ReportDownloadResponse reportResponse =
+          reportDownloader.downloadReport(query.toString(), DownloadFormat.CSV);
+
+      InputStream inputStream = reportResponse.getInputStream();
+      inputStream.close();
+
+    } catch (ReportException e) {
+      e.printStackTrace();
+    } catch (ReportDownloadResponseException e) {
+      e.printStackTrace();
+    } catch (OAuthException e) {
+      e.printStackTrace();
+    } catch (ValidationException e) {
+      e.printStackTrace();
     } catch (IOException e) {
       LOGGER.error("postGoogleAds(): caught an exception: ", e);
       throw datasetError(e);
@@ -522,18 +595,18 @@ public class PrDatasetController {
   public @ResponseBody ResponseEntity<?> postFacebook(
       @RequestBody Map<String,String> request
   ) {
+    Map<String, String> response = Maps.newHashMap();
+
     String accessToken = request.get("access_token");
     String appSecret = request.get("appsecret");
+    APIContext context = new APIContext( accessToken, appSecret );
+
     String adAccountId = request.get("adaccount_id");
-    Map<String, String> response = Maps.newHashMap();
-    APIContext context = new APIContext(
-        accessToken,
-        appSecret
-    );
     AdAccount account = new AdAccount("act_"+adAccountId, context);
     try {
       APINodeList<Campaign> campaigns = account.getCampaigns().requestAllFields().execute();
       for(Campaign campaign : campaigns) {
+        Campaign.APIRequestGetAds ads = campaign.getAds();
         System.out.println(campaign.getFieldName());
       }
     } catch (Exception e) {

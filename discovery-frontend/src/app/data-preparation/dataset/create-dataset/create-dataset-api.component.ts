@@ -136,7 +136,7 @@ public call(service) {
     let params = {
       'client_id' : this.client_id,
       'client_secret' : this.client_secret,
-      'auth_code' : this.auth_code,
+      'developer_token' : this.developer_token,
       'access_token' : this.access_token,
       'appsecret' : this.appsecret,
       'adaccount_id' : this.adaccount_id
