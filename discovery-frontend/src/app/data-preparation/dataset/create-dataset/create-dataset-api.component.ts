@@ -56,6 +56,8 @@ export class CreateDatasetApiComponent extends AbstractPopupComponent implements
   public client_secret : string = '';
   public auth_code: string = '';
   public access_token: string = '';
+  public developer_token : string = '';
+  public appid: string = '';
   public appsecret: string = '';
   public adaccount_id: string = '';
 
@@ -139,6 +141,7 @@ public call(service) {
       'developer_token' : this.developer_token,
       'access_token' : this.access_token,
       'appsecret' : this.appsecret,
+      'appid' : this.appid,
       'adaccount_id' : this.adaccount_id
     };
     if(service=='google') {

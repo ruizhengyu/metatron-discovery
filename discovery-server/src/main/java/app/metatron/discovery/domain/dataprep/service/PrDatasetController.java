@@ -39,6 +39,7 @@ import com.google.common.collect.Maps;
 import com.facebook.ads.sdk.APIContext;
 import com.facebook.ads.sdk.APINodeList;
 import com.facebook.ads.sdk.AdAccount;
+import com.facebook.ads.sdk.AdsInsights;
 import com.facebook.ads.sdk.Campaign;
 
 import org.apache.commons.io.FilenameUtils;
@@ -549,17 +550,11 @@ public class PrDatasetController {
               .during(ReportDefinitionDateRangeType.LAST_7_DAYS)
               .build();
 
-      // Optional: Set the reporting configuration of the session to suppress header, column name, or
-      // summary rows in the report output. You can also configure this via your ads.properties
-      // configuration file. See AdWordsSession.Builder.from(Configuration) for details.
-      // In addition, you can set whether you want to explicitly include or exclude zero impression
-      // rows.
       ReportingConfiguration reportingConfiguration =
           new ReportingConfiguration.Builder()
               .skipReportHeader(false)
               .skipColumnHeader(false)
               .skipReportSummary(false)
-              // Set to false to exclude rows with zero impressions.
               .includeZeroImpressions(true)
               .build();
       session.setReportingConfiguration(reportingConfiguration);
@@ -598,12 +593,25 @@ public class PrDatasetController {
     Map<String, String> response = Maps.newHashMap();
 
     String accessToken = request.get("access_token");
+    String appId = request.get("appid");
     String appSecret = request.get("appsecret");
-    APIContext context = new APIContext( accessToken, appSecret );
+    APIContext context = new APIContext( accessToken, appSecret ).enableDebug(true);
 
     String adAccountId = request.get("adaccount_id");
-    AdAccount account = new AdAccount("act_"+adAccountId, context);
+    AdAccount account = new AdAccount(adAccountId, context);
+
     try {
+      APINodeList<AdsInsights> insights = account.getInsights()
+              .setLevel(AdsInsights.EnumLevel.VALUE_ACCOUNT)
+              .setFiltering("[]")
+              .requestField("account_id")
+              .requestField("account_name")
+              .execute();
+      for(AdsInsights insight : insights ) {
+        String campaignName = insight.getFieldCampaignName();
+        System.out.println(campaignName);
+      }
+
       APINodeList<Campaign> campaigns = account.getCampaigns().requestAllFields().execute();
       for(Campaign campaign : campaigns) {
         Campaign.APIRequestGetAds ads = campaign.getAds();

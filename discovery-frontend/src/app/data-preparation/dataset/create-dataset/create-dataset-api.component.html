@@ -25,7 +25,6 @@
   </div>
   <div class="ddp-type-contents-in ddp-size-resize ">
     <div class="ddp-wrap-urltype ">
-      <a href="javascript:" class="ddp-btn-pop ddp-bg-gray " (click)="call('google')">google</a>
       <!-- edit -->
       <div class="ddp-wrap-edit4">
         <div class="ddp-label-type">client id</div>
@@ -57,17 +56,30 @@
         </div>
       </div>
 
-      <a href="javascript:" class="ddp-btn-pop ddp-bg-gray " (click)="call('facebook')">facebook</a>
+      <a href="javascript:" class="ddp-btn-pop ddp-bg-gray " (click)="call('google')">google</a>
+
+      <hr />
+
       <!-- edit -->
       <div class="ddp-wrap-edit4">
         <div class="ddp-label-type">access-token</div>
         <div class="ddp-form-edit type-file">
           <div class="ddp-form-file">
-            <input type="text" class="ddp-input-typebasic" placeholder="access-token" [(ngModel)]="access_token">
+            <input type="text" class="ddp-input-typebasic" placeholder="access token" [(ngModel)]="access_token">
           </div>
         </div>
       </div>
       <!-- //edit -->
+
+      <!-- edit -->
+      <div class="ddp-wrap-edit4">
+        <div class="ddp-label-type">app secret</div>
+        <div class="ddp-form-edit type-file">
+          <div class="ddp-form-file">
+            <input type="text" class="ddp-input-typebasic" placeholder="app id" [(ngModel)]="appid">
+          </div>
+        </div>
+      </div>
 
       <!-- edit -->
       <div class="ddp-wrap-edit4">
@@ -88,6 +100,8 @@
           </div>
         </div>
       </div>
+
+      <a href="javascript:" class="ddp-btn-pop ddp-bg-gray " (click)="call('facebook')">facebook</a>
     </div>
   </div>
   <!-- buttons -->
