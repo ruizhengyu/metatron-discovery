@@ -36,6 +36,8 @@ export class LNBLogoComponent extends AbstractComponent implements OnInit, OnDes
    |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
   ngOnInit() {
+    $('.ddp-layout-lnb .ddp-h1-logo').css('top','16px');
+    $('.ddp-layout-lnb .ddp-h1-logo a').css('width','100px').css('height', '24px');
     super.ngOnInit();
   }
 

@@ -13,11 +13,7 @@
  */
 @charset "utf-8";
 
-:host-context(.ddp-layout-lnb .ddp-h1-logo a) .st10 {fill:#646C77;}
-:host-context(.ddp-layout-lnb .ddp-h1-logo a) .st11 {fill:#C3C7D2;}
-:host-context(.ddp-layout-lnb.ddp-selected .ddp-h1-logo a) .st10 {fill:#989EA6;}
-:host-context(.ddp-layout-lnb.ddp-selected .ddp-h1-logo a) .st11 {fill:#595F6A;}
+:host-context(.ddp-layout-lnb .ddp-h1-logo a) .st0 {fill:#FF3186;}
+:host-context(.ddp-layout-lnb .ddp-h1-logo a) .st1 {fill:#231F20;}
 
-/*theme dark*/
-:host-context(.theme-dark .ddp-layout-lnb .ddp-h1-logo a) .st10 {fill: #fff;}
-:host-context(.theme-dark .ddp-layout-lnb .ddp-h1-logo a) .st11 {fill: #2abcef;}
+:host-context(.ddp-layout-lnb.ddp-selected .ddp-h1-logo a) .st1 {fill:#989EA6;}

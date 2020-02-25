@@ -9724,7 +9724,7 @@ ul.ddp-list-setinfo li .ddp-setinfo-contents .ddp-ui-setinfo .ddp-txt-title {col
 .ddp-sso-loading em.ddp-icon-logo .st1{fill:#272950;}
 .ddp-sso-loading em.ddp-icon-logo .st2{fill:#47DBF4;}
 .ddp-sso-loading em.ddp-icon-logo .st3{fill:#7575EA;}
-
+.ddp-sso-loading em.ddp-icon-logo.type-logo {width:208px; height:50px; background:url(../../images/icon_logo_im.svg) no-repeat; background-size:100% 100%;}
 .ddp-icon-loading {display:block; padding-bottom:35px; text-align:center;}
 .ddp-icon-loading .lds-wedges {display:inline-block; position:relative; top:50px; left:50px;}
 .ddp-sso-loading .ddp-txt-welcome {padding-bottom:10px; color:#272950; font-size:22px; text-align:center;}

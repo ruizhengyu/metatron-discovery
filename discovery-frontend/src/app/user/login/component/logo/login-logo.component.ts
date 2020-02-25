@@ -36,6 +36,7 @@ export class LoginLogoComponent extends AbstractComponent implements OnInit, OnD
    |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*/
 
   ngOnInit() {
+  $('.ddp-ui-login .ddp-ui-logo').css('width', '208px').css('height', '50px');
     super.ngOnInit();
   }
 
