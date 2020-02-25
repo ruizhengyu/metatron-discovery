@@ -19,10 +19,8 @@
 
 .ddp-ui-login .ddp-box-login {width:278px; margin:0 auto;}
 .ddp-ui-login .ddp-ui-logo {height:36px; padding-bottom:20px;}
-.ddp-ui-login .ddp-ui-logo .st0{fill:#1A274B;}
-.ddp-ui-login .ddp-ui-logo .st1{fill:#272950;}
-.ddp-ui-login .ddp-ui-logo .st2{fill:#47DBF4;}
-.ddp-ui-login .ddp-ui-logo .st3{fill:#7575EA;}
+.ddp-ui-login .ddp-ui-logo .st0{fill:#FF3186;}
+.ddp-ui-login .ddp-ui-logo .st1{fill:#231F20;}
 
 .ddp-form-login .ddp-form-input {position:relative; width:100%; box-sizing:border-box;}
 .ddp-form-login .ddp-form-input label {display:block; padding:30px 0 0 0; color:rgba(39,41,80,0.7); font-size:13px;}
