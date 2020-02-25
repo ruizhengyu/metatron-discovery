@@ -1,0 +1,6 @@
+/* change logo */
+.ddp-layout-lnb .ddp-h1-logo a .st0 {fill:#FF3186;}
+.ddp-layout-lnb .ddp-h1-logo a .st1 {fill:#231F20;}
+.ddp-layout-lnb.ddp-selected .ddp-h1-logo a .st1 {fill:#989EA6;}
+
+.ddp-sso-loading em.ddp-icon-logo.type-logo {width:208px; height:50px; background:url(../images/icon_logo_im.svg) no-repeat; background-size:100% 100%;}

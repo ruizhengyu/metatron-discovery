@@ -243,6 +243,7 @@ public class ApiResourceConfig extends WebMvcConfigurerAdapter {
     registry.addViewController("/app/v2/assets/i18n/zh.json").setViewName("forward:/resource/assets/i18n/zh.json");
     //        registry.addViewController("/app/v2/assets/images/img_photo.png").setViewName("forward:/resource/assets/images/img_photo.png");
     //        registry.addViewController("/assets/**").setViewName("forward:/resource/index.html");
+    registry.addViewController("/app/v2/favicon.ico").setViewName("forward:/resource/favicon.ico");
     registry.addViewController("/app/**").setViewName("forward:/resource/index.html");
     registry.addViewController("/app/v2/**").setViewName("forward:/resource/index.html");
   }

@@ -13,6 +13,6 @@
  */
 @charset "utf-8";
 
-:host-context(.ddp-ui-login .ddp-ui-logo) .st0{fill:#FF3186;}
-:host-context(.ddp-ui-login .ddp-ui-logo) .st1{fill:#231F20;}
+.st0{fill:#FF3186;}
+.st1{fill:#231F20;}
 

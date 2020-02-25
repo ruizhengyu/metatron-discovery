@@ -13,7 +13,3 @@
  */
 @charset "utf-8";
 
-:host-context(.ddp-layout-lnb .ddp-h1-logo a) .st0 {fill:#FF3186;}
-:host-context(.ddp-layout-lnb .ddp-h1-logo a) .st1 {fill:#231F20;}
-
-:host-context(.ddp-layout-lnb.ddp-selected .ddp-h1-logo a) .st1 {fill:#989EA6;}
