@@ -19,7 +19,6 @@ import app.metatron.discovery.domain.dataprep.teddy.exceptions.TeddyException;
 import app.metatron.discovery.domain.dataprep.teddy.exceptions.WrongTargetColumnExpressionException;
 import app.metatron.discovery.prep.parser.preparation.rule.Rename;
 import app.metatron.discovery.prep.parser.preparation.rule.Rule;
-import app.metatron.discovery.prep.parser.preparation.rule.expr.Constant;
 import app.metatron.discovery.prep.parser.preparation.rule.expr.Expression;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,13 +62,10 @@ public class DfRename extends DataFrame {
 
     for (int i = 0; i < newColNames.size(); i++) {
       String newColName = newColNames.get(i);
-      newColName = makeParsable(newColName);
-      newColName = modifyDuplicatedColName(oldColNames, newColName);
-
-      newColNames.set(i, newColName);   // newColumns는 항상 grid의 column 순서로 옴
-      oldColNames.add(newColName);
+      if (oldColNames.contains(newColName)) {
+        throw new IllegalColumnNameExpressionException("doRename(): column name duplicated: " + newColName);
+      }
     }
-    // newColNames 확정. 이제 다른 이름으로 변하지 않음.
 
     //타깃컬럼번호-신규이름 매핑
     for (int i = 0; i < targetColNames.size(); i++) {
