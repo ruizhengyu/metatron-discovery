@@ -14,7 +14,7 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule as AngularCommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TranslateModule } from '@ngx-translate/core';
@@ -57,17 +57,18 @@ import { ColorPickerComponent } from './component/color-picker/color.picker.comp
 import { GradationGeneratorComponent } from './component/gradation/gradation-generator.component';
 import { DashboardDatasourceComboComponent } from '../dashboard/component/dashboard-datasource-combo.component';
 import { ColorTemplateComponent } from './component/color-picker/color-template.component';
-import {InputComponent} from "./component/input/input.component";
-import {SvgIconComponent} from "./component/icon/svg-icon.component";
-import {CommonConstant} from "./constant/common.constant";
-import {CookieConstant} from "./constant/cookie.constant";
-import {PaginationComponent} from "./component/pagination/pagination.component";
+import { InputComponent } from "./component/input/input.component";
+import { SvgIconComponent } from "./component/icon/svg-icon.component";
+import { CommonConstant } from "./constant/common.constant";
+import { CookieConstant } from "./constant/cookie.constant";
+import { PaginationComponent } from "./component/pagination/pagination.component";
 
-import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 import * as SockJS from 'sockjs-client';
-import {FilterSelectBoxComponent} from "./component/select/filter-select-box.component";
-import {ConfirmRefModalComponent} from "./component/modal/confirm/confirm-ref.component";
-import {MetadataTypeBoxTagComponent} from "../explore-data/explore-data/component/metadata-type-box-tag.component";
+import { FilterSelectBoxComponent } from "./component/select/filter-select-box.component";
+import { ConfirmRefModalComponent } from "./component/modal/confirm/confirm-ref.component";
+import { MetadataTypeBoxTagComponent } from "../explore-data/explore-data/component/metadata-type-box-tag.component";
+import { LoaderInterceptor } from "./interceptor/loader-interceptor";
 
 
 export function socketProvider() {
@@ -184,6 +185,7 @@ const stompConfig: StompConfig = {
     MetadataTypeBoxTagComponent
   ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     {
       provide: COMPOSITION_BUFFER_MODE,
       useValue: false
