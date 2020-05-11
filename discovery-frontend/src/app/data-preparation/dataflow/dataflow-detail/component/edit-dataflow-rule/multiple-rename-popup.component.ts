@@ -758,6 +758,7 @@ export class MultipleRenamePopupComponent extends AbstractComponent implements O
    */
   private _setColumns(fields: any, cols?: string[], tos?: string[]) {
     this.columns = [];
+    const names = fields.map((item) => item.name);
     fields.forEach((item) => {
       if (cols) {
         // 편집일 경우 편집한 이름으로 renamedAs 를 넣어준다
@@ -770,9 +771,24 @@ export class MultipleRenamePopupComponent extends AbstractComponent implements O
         });
       } else {
         if (this.subTitle !== '') { // Came from snapshot popup
+          let renameAs = this._replaceWhiteSpace(this._korToEng(item.name), '_').toLowerCase();
+          if (item.name != renameAs) {
+            let duplicate = true;
+            while(duplicate) {
+              let idx = names.findIndex((item) => {
+                return item === renameAs
+              });
+              if (idx != -1) {
+                renameAs += '_1';
+              } else {
+                duplicate = false;
+              }
+            }
+            names.push(renameAs);
+          }
           this.columns.push({
             original: item.name,
-            renamedAs: this._replaceWhiteSpace(this._korToEng(item.name), '_').toLowerCase(),
+            renamedAs: renameAs,
             isError: false,
             isEditing: false
           });
@@ -786,7 +802,6 @@ export class MultipleRenamePopupComponent extends AbstractComponent implements O
         }
       }
     });
-
 
     // Except korean, english, numbers and _ change to default name
     if (!cols && this.subTitle !== '') {
